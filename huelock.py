@@ -20,7 +20,7 @@ import os
 import sys
 
 
-class ObjectDetector():
+class Huelock():
 
     def __init__(self, color_min=[100, 200, 95], color_max=[150, 255, 255]):
         # Default colors work to detect red-cup red!
@@ -28,7 +28,7 @@ class ObjectDetector():
         self.color_max = cv.Scalar(color_max[0], color_max[1], color_max[2])
 
     # Returns x, y of object
-    def detect_object(self, image_filename):
+    def detect_hue(self, image_filename):
         # Get the image from disk (TODO: get a stream instead)
         frame = cv.LoadImage(image_filename)
         frameHSV = cv.CreateImage(cv.GetSize(frame), 8, 3)
@@ -79,14 +79,14 @@ class ObjectDetector():
 
 def cli():
     # Regardless, instantiate an object detector
-    detector = ObjectDetector()
+    detector = Huelock()
 
     if len(sys.argv) == 1:
         print "Usage: ./" + str(sys.argv[0]) + " [filename]"
 
     elif len(sys.argv) == 2:
         # Detect object, print result
-        print detector.detect_object(str(sys.argv[1]))
+        print detector.detect_hue(str(sys.argv[1]))
 
     else:
         # For testing (HACK) -- uses OSX's builtin imagesnap util
@@ -95,7 +95,7 @@ def cli():
             os.system("imagesnap %s " % image_filename)
 
             # Detect center
-            center = detector.detect_object(image_filename)
+            center = detector.detect_hue(image_filename)
             frame = cv.LoadImage(image_filename)
 
             # Draw a circle to indicate where the center was found
