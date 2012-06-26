@@ -7,9 +7,6 @@
 
 # Notes
 # -----
-# Quadrants are as follows:
-# Quad0 Quad1
-# Quad2 Quad3
 #
 # Requires opencv 2.2+
 # If you're unable to import cv (but rather, opencv),
@@ -73,7 +70,10 @@ class Huelock():
         return self.find_center(matrix, new_left, new_top, new_right, new_bot)
 
     def quadrant(self, x, y, mid_x, mid_y):
-      #Utility function to find quadrants in a x by y rectangle
+        #Utility function to find quadrants in a x by y rectangle
+        # Quadrants are as follows:
+        # Quad0 Quad1
+        # Quad2 Quad3
         return 2 * (y > mid_y) + 1 * (x > mid_x)
 
 
@@ -84,25 +84,25 @@ def cli():
     if len(sys.argv) == 1:
         print "Usage: ./" + str(sys.argv[0]) + " [filename]"
 
-    elif len(sys.argv) == 2:
-        # Detect object, print result
-        print detector.detect_hue(str(sys.argv[1]))
-
     else:
-        # For testing (HACK) -- uses OSX's builtin imagesnap util
-        while True:
-            image_filename = 'temp.png'
-            os.system("imagesnap %s " % image_filename)
+        if sys.argv[1]=="test":
+            # For testing (HACK) -- uses OSX's builtin imagesnap util
+            while True:
+                image_filename = 'temp.png'
+                os.system("imagesnap %s " % image_filename)
 
-            # Detect center
-            center = detector.detect_hue(image_filename)
-            frame = cv.LoadImage(image_filename)
+                # Detect center
+                center = detector.detect_hue(image_filename)
+                frame = cv.LoadImage(image_filename)
 
-            # Draw a circle to indicate where the center was found
-            cv.Circle(frame, center, 10, cv.Scalar(0, 255, 255))
-            cv.NamedWindow('a_window', cv.CV_WINDOW_AUTOSIZE)
-            cv.ShowImage('a_window', frame)
-            cv.WaitKey(400)
+                # Draw a circle to indicate where the center was found
+                cv.Circle(frame, center, 10, cv.Scalar(0, 255, 255))
+                cv.NamedWindow('a_window', cv.CV_WINDOW_AUTOSIZE)
+                cv.ShowImage('a_window', frame)
+                cv.WaitKey(400)
+        else:
+          # Detect object, print result
+          print detector.detect_hue(str(sys.argv[1]))
 
 if __name__ == '__main__':
     # Call command line interface
