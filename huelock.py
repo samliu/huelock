@@ -47,8 +47,7 @@ class Huelock():
 
         # Base case
         if (right - left < 3) or (bot - top < 3):
-            #return (mid_x, mid_y)
-            return str(mid_x) + "," + str(mid_y)
+            return (mid_x, mid_y)
 
         # Otherwise, initialize scores and recursively score quadrants
         quadrant_scores = [0, 0, 0, 0]
